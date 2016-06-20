@@ -4,7 +4,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.27
-Release  : 5
+Release  : 6
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.27.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.27.tar.gz
 Summary  : A library for reading and writing audio files
@@ -14,7 +14,11 @@ Requires: libsndfile-bin
 Requires: libsndfile-lib
 Requires: libsndfile-doc
 BuildRequires : alsa-lib-dev
+BuildRequires : flac-dev
+BuildRequires : libogg-dev
+BuildRequires : libvorbis-dev
 BuildRequires : sed
+BuildRequires : sqlite-autoconf-dev
 
 %description
 This is libsndfile, 1.0.27
