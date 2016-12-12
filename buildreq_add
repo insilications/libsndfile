@@ -4,3 +4,9 @@ flac-dev
 libvorbis-dev
 libogg-dev
 sqlite-autoconf-dev
+libvorbis-dev32
+flac-dev32
+libogg-dev32
+sqlite-autoconf-dev32
+alsa-lib-dev
+alsa-lib-dev32
