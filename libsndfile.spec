@@ -4,7 +4,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 9
+Release  : 10
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Summary  : A library for reading and writing audio files
@@ -29,6 +29,10 @@ BuildRequires : libvorbis-dev32
 BuildRequires : sed
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : sqlite-autoconf-dev32
+Patch1: cve-2017-8361.nopatch
+Patch2: cve-2017-8363.nopatch
+Patch3: cve-2017-8365.patch
+Patch4: cve-2017-8362.patch
 
 %description
 This is libsndfile, 1.0.28
@@ -91,13 +95,18 @@ lib32 components for the libsndfile package.
 
 %prep
 %setup -q -n libsndfile-1.0.28
+%patch3 -p1
+%patch4 -p1
 pushd ..
 cp -a libsndfile-1.0.28 build32
 popd
 
 %build
+export http_proxy=http://127.0.0.1:9/
+export https_proxy=http://127.0.0.1:9/
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1491226255
+export SOURCE_DATE_EPOCH=1494360377
 export CFLAGS="$CFLAGS -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fstack-protector-strong "
@@ -117,11 +126,11 @@ popd
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost
+export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1491226255
+export SOURCE_DATE_EPOCH=1494360377
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
