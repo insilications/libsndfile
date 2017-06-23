@@ -1,0 +1,23 @@
+Configure miss: whether we are using the CLANG C compiler
+Configure miss: autogen
+Configure miss: wine
+Configure miss: xcode-select
+Configure miss: octave
+Configure miss: mkoctfile
+Configure miss: octave-config
+Configure miss: processor clipping capabilities
+Configure miss: whether to add -D_FORTIFY_SOURCE=2 to CPPFLAGS
+Configure miss: whether we are using the CLANG C compiler
+Configure miss: i686-generic-linux-gnu-objdump
+Configure miss: i686-generic-linux-gnu-dlltool
+Configure miss: i686-generic-linux-gnu-strip
+Configure miss: i686-generic-linux-gnu-mt
+Configure miss: i686-generic-linux-gnu-windres
+Configure miss: autogen
+Configure miss: wine
+Configure miss: xcode-select
+Configure miss: octave
+Configure miss: mkoctfile
+Configure miss: octave-config
+Configure miss: i686-generic-linux-gnu-pkg-config
+Configure miss: whether to add -D_FORTIFY_SOURCE=2 to CPPFLAGS
