@@ -4,7 +4,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 12
+Release  : 13
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Summary  : A library for reading and writing audio files
