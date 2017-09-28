@@ -6,7 +6,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 15
+Release  : 17
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source99 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
@@ -38,6 +38,9 @@ Patch3: cve-2017-8365.patch
 Patch4: cve-2017-8362.patch
 Patch5: cve-2017-6892.patch
 Patch6: CVE-2017-12562.patch
+Patch7: cve-2017-14245.patch
+Patch8: cve-2017-14634.patch
+Patch9: cve-2017-14246.nopatch
 
 %description
 This is libsndfile, 1.0.28
@@ -104,6 +107,8 @@ lib32 components for the libsndfile package.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
 pushd ..
 cp -a libsndfile-1.0.28 build32
 popd
@@ -113,7 +118,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1502377993
+export SOURCE_DATE_EPOCH=1506615104
 export CFLAGS="$CFLAGS -fstack-protector-strong "
 export FCFLAGS="$CFLAGS -fstack-protector-strong "
 export FFLAGS="$CFLAGS -fstack-protector-strong "
@@ -137,7 +142,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1502377993
+export SOURCE_DATE_EPOCH=1506615104
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
