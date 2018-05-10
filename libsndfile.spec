@@ -6,7 +6,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 19
+Release  : 20
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source99 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
