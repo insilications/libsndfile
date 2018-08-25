@@ -6,7 +6,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 20
+Release  : 21
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source99 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
@@ -15,7 +15,8 @@ Group    : Development/Tools
 License  : LGPL-2.1
 Requires: libsndfile-bin
 Requires: libsndfile-lib
-Requires: libsndfile-doc
+Requires: libsndfile-license
+Requires: libsndfile-man
 BuildRequires : alsa-lib-dev
 BuildRequires : alsa-lib-dev32
 BuildRequires : flac-dev
@@ -29,6 +30,8 @@ BuildRequires : libogg-dev
 BuildRequires : libogg-dev32
 BuildRequires : libvorbis-dev
 BuildRequires : libvorbis-dev32
+BuildRequires : octave-dev
+BuildRequires : pkg-config
 BuildRequires : sed
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : sqlite-autoconf-dev32
@@ -50,6 +53,8 @@ files containing sampled audio data.
 %package bin
 Summary: bin components for the libsndfile package.
 Group: Binaries
+Requires: libsndfile-license
+Requires: libsndfile-man
 
 %description bin
 bin components for the libsndfile package.
@@ -80,14 +85,24 @@ dev32 components for the libsndfile package.
 %package doc
 Summary: doc components for the libsndfile package.
 Group: Documentation
+Requires: libsndfile-man
 
 %description doc
 doc components for the libsndfile package.
 
 
+%package extras
+Summary: extras components for the libsndfile package.
+Group: Default
+
+%description extras
+extras components for the libsndfile package.
+
+
 %package lib
 Summary: lib components for the libsndfile package.
 Group: Libraries
+Requires: libsndfile-license
 
 %description lib
 lib components for the libsndfile package.
@@ -96,9 +111,26 @@ lib components for the libsndfile package.
 %package lib32
 Summary: lib32 components for the libsndfile package.
 Group: Default
+Requires: libsndfile-license
 
 %description lib32
 lib32 components for the libsndfile package.
+
+
+%package license
+Summary: license components for the libsndfile package.
+Group: Default
+
+%description license
+license components for the libsndfile package.
+
+
+%package man
+Summary: man components for the libsndfile package.
+Group: Default
+
+%description man
+man components for the libsndfile package.
 
 
 %prep
@@ -118,21 +150,21 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1506615104
-export CFLAGS="$CFLAGS -fstack-protector-strong "
-export FCFLAGS="$CFLAGS -fstack-protector-strong "
-export FFLAGS="$CFLAGS -fstack-protector-strong "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong "
+export SOURCE_DATE_EPOCH=1535221652
+export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static
-make V=1  %{?_smp_mflags}
+make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
-%configure --disable-static    --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make V=1  %{?_smp_mflags}
+%configure --disable-static  --disable-octave  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
+make  %{?_smp_mflags}
 popd
 %check
 export LANG=C
@@ -142,8 +174,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1506615104
+export SOURCE_DATE_EPOCH=1535221652
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/libsndfile
+cp COPYING %{buildroot}/usr/share/doc/libsndfile/COPYING
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -154,9 +188,6 @@ popd
 fi
 popd
 %make_install
-## make_install_append content
-rm -f %{buildroot}/usr/include/sndfile.hh
-## make_install_append end
 
 %files
 %defattr(-,root,root,-)
@@ -177,6 +208,7 @@ rm -f %{buildroot}/usr/include/sndfile.hh
 
 %files dev
 %defattr(-,root,root,-)
+%exclude /usr/include/sndfile.hh
 /usr/include/*.h
 /usr/lib64/libsndfile.so
 /usr/lib64/pkgconfig/sndfile.pc
@@ -188,9 +220,12 @@ rm -f %{buildroot}/usr/include/sndfile.hh
 /usr/lib32/pkgconfig/sndfile.pc
 
 %files doc
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 %doc /usr/share/doc/libsndfile/*
-%doc /usr/share/man/man1/*
+
+%files extras
+%defattr(-,root,root,-)
+/usr/include/sndfile.hh
 
 %files lib
 %defattr(-,root,root,-)
@@ -201,3 +236,20 @@ rm -f %{buildroot}/usr/include/sndfile.hh
 %defattr(-,root,root,-)
 /usr/lib32/libsndfile.so.1
 /usr/lib32/libsndfile.so.1.0.28
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/libsndfile/COPYING
+
+%files man
+%defattr(-,root,root,-)
+/usr/share/man/man1/sndfile-cmp.1
+/usr/share/man/man1/sndfile-concat.1
+/usr/share/man/man1/sndfile-convert.1
+/usr/share/man/man1/sndfile-deinterleave.1
+/usr/share/man/man1/sndfile-info.1
+/usr/share/man/man1/sndfile-interleave.1
+/usr/share/man/man1/sndfile-metadata-get.1
+/usr/share/man/man1/sndfile-metadata-set.1
+/usr/share/man/man1/sndfile-play.1
+/usr/share/man/man1/sndfile-salvage.1
