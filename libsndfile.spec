@@ -6,17 +6,17 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 23
+Release  : 24
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source99 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
 Summary  : A library for reading and writing audio files
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: libsndfile-bin
-Requires: libsndfile-lib
-Requires: libsndfile-license
-Requires: libsndfile-man
+Requires: libsndfile-bin = %{version}-%{release}
+Requires: libsndfile-lib = %{version}-%{release}
+Requires: libsndfile-license = %{version}-%{release}
+Requires: libsndfile-man = %{version}-%{release}
 BuildRequires : alsa-lib-dev
 BuildRequires : alsa-lib-dev32
 BuildRequires : flac-dev
@@ -35,16 +35,13 @@ BuildRequires : pkg-config
 BuildRequires : sed
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : sqlite-autoconf-dev32
-Patch1: cve-2017-8361.nopatch
-Patch2: cve-2017-8363.nopatch
-Patch3: cve-2017-8365.patch
-Patch4: cve-2017-8362.patch
-Patch5: cve-2017-6892.patch
-Patch6: CVE-2017-12562.patch
-Patch7: cve-2017-14245.patch
-Patch8: cve-2017-14634.patch
-Patch9: cve-2017-14246.nopatch
-Patch10: cve-2018-13139.patch
+Patch1: cve-2017-8365.patch
+Patch2: cve-2017-8362.patch
+Patch3: cve-2017-6892.patch
+Patch4: CVE-2017-12562.patch
+Patch5: cve-2017-14245.patch
+Patch6: cve-2017-14634.patch
+Patch7: cve-2018-13139.patch
 
 %description
 This is libsndfile, 1.0.28
@@ -54,8 +51,8 @@ files containing sampled audio data.
 %package bin
 Summary: bin components for the libsndfile package.
 Group: Binaries
-Requires: libsndfile-license
-Requires: libsndfile-man
+Requires: libsndfile-license = %{version}-%{release}
+Requires: libsndfile-man = %{version}-%{release}
 
 %description bin
 bin components for the libsndfile package.
@@ -64,9 +61,9 @@ bin components for the libsndfile package.
 %package dev
 Summary: dev components for the libsndfile package.
 Group: Development
-Requires: libsndfile-lib
-Requires: libsndfile-bin
-Provides: libsndfile-devel
+Requires: libsndfile-lib = %{version}-%{release}
+Requires: libsndfile-bin = %{version}-%{release}
+Provides: libsndfile-devel = %{version}-%{release}
 
 %description dev
 dev components for the libsndfile package.
@@ -75,9 +72,9 @@ dev components for the libsndfile package.
 %package dev32
 Summary: dev32 components for the libsndfile package.
 Group: Default
-Requires: libsndfile-lib32
-Requires: libsndfile-bin
-Requires: libsndfile-dev
+Requires: libsndfile-lib32 = %{version}-%{release}
+Requires: libsndfile-bin = %{version}-%{release}
+Requires: libsndfile-dev = %{version}-%{release}
 
 %description dev32
 dev32 components for the libsndfile package.
@@ -86,7 +83,7 @@ dev32 components for the libsndfile package.
 %package doc
 Summary: doc components for the libsndfile package.
 Group: Documentation
-Requires: libsndfile-man
+Requires: libsndfile-man = %{version}-%{release}
 
 %description doc
 doc components for the libsndfile package.
@@ -103,7 +100,7 @@ extras components for the libsndfile package.
 %package lib
 Summary: lib components for the libsndfile package.
 Group: Libraries
-Requires: libsndfile-license
+Requires: libsndfile-license = %{version}-%{release}
 
 %description lib
 lib components for the libsndfile package.
@@ -112,7 +109,7 @@ lib components for the libsndfile package.
 %package lib32
 Summary: lib32 components for the libsndfile package.
 Group: Default
-Requires: libsndfile-license
+Requires: libsndfile-license = %{version}-%{release}
 
 %description lib32
 lib32 components for the libsndfile package.
@@ -136,13 +133,13 @@ man components for the libsndfile package.
 
 %prep
 %setup -q -n libsndfile-1.0.28
+%patch1 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
-%patch10 -p1
 pushd ..
 cp -a libsndfile-1.0.28 build32
 popd
@@ -152,7 +149,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1535485108
+export SOURCE_DATE_EPOCH=1541720604
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -162,6 +159,7 @@ make  %{?_smp_mflags}
 
 pushd ../build32/
 export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+export ASFLAGS="$ASFLAGS --32"
 export CFLAGS="$CFLAGS -m32"
 export CXXFLAGS="$CXXFLAGS -m32"
 export LDFLAGS="$LDFLAGS -m32"
@@ -175,13 +173,13 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 cd ../build32;
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1535485108
+export SOURCE_DATE_EPOCH=1541720604
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/libsndfile
-cp COPYING %{buildroot}/usr/share/doc/libsndfile/COPYING
+mkdir -p %{buildroot}/usr/share/package-licenses/libsndfile
+cp COPYING %{buildroot}/usr/share/package-licenses/libsndfile/COPYING
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -242,11 +240,11 @@ popd
 /usr/lib32/libsndfile.so.1.0.28
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/libsndfile/COPYING
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libsndfile/COPYING
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/sndfile-cmp.1
 /usr/share/man/man1/sndfile-concat.1
 /usr/share/man/man1/sndfile-convert.1
