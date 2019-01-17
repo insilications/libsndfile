@@ -6,7 +6,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 25
+Release  : 26
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source99 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
@@ -43,6 +43,7 @@ Patch5: cve-2017-14245.patch
 Patch6: cve-2017-14634.patch
 Patch7: cve-2018-13139.patch
 Patch8: CVE-2018-19662.patch
+Patch9: CVE-2018-19758.patch
 
 %description
 This is libsndfile, 1.0.28
@@ -142,6 +143,7 @@ man components for the libsndfile package.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 pushd ..
 cp -a libsndfile-1.0.28 build32
 popd
@@ -151,7 +153,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1546994824
+export SOURCE_DATE_EPOCH=1547763165
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -178,7 +180,7 @@ cd ../build32;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1546994824
+export SOURCE_DATE_EPOCH=1547763165
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libsndfile
 cp COPYING %{buildroot}/usr/share/package-licenses/libsndfile/COPYING
