@@ -37,5 +37,5 @@ autogen
 autogen-dev
 opus-dev
 opus-staticdev
-opus-dev32
-opus-staticdev32
+speex-staticdev
+speex-dev

@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libsndfile
 Version  : 1.0.29
-Release  : 31
+Release  : 32
 URL      : file:///insilications/build/clearlinux/packages/libsndfile/libsndfile-v1.0.29.zip
 Source0  : file:///insilications/build/clearlinux/packages/libsndfile/libsndfile-v1.0.29.zip
 Summary  : A library for reading and writing audio files
@@ -41,12 +41,17 @@ BuildRequires : libvorbis-dev32
 BuildRequires : libvorbis-staticdev
 BuildRequires : libvorbis-staticdev32
 BuildRequires : octave-dev
+BuildRequires : opus-dev
+BuildRequires : opus-staticdev
 BuildRequires : pkg-config
+BuildRequires : pkg-config-dev
 BuildRequires : pkgconfig(32alsa)
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(flac)
 BuildRequires : pkgconfig(flac++)
 BuildRequires : pkgconfig(ogg)
+BuildRequires : pkgconfig(opus)
+BuildRequires : pkgconfig(speex)
 BuildRequires : pkgconfig(vorbis)
 BuildRequires : pkgconfig(vorbisenc)
 BuildRequires : pkgconfig(vorbisfile)
@@ -54,6 +59,8 @@ BuildRequires : python3
 BuildRequires : python3-dev
 BuildRequires : python3-staticdev
 BuildRequires : sed
+BuildRequires : speex-dev
+BuildRequires : speex-staticdev
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : sqlite-autoconf-dev32
 # Suppress stripping binaries
@@ -167,7 +174,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597923293
+export SOURCE_DATE_EPOCH=1597923898
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -238,7 +245,7 @@ cd ../build32;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1597923293
+export SOURCE_DATE_EPOCH=1597923898
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
