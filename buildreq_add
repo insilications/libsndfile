@@ -22,6 +22,7 @@ libvorbis-staticdev
 libvorbis-staticdev32
 octave-dev
 pkg-config
+pkg-config-dev
 sed
 sqlite-autoconf-dev
 sqlite-autoconf-dev32
@@ -34,3 +35,7 @@ automake-dev
 automake
 autogen
 autogen-dev
+opus-dev
+opus-staticdev
+opus-dev32
+opus-staticdev32

@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libsndfile
 Version  : 1.0.29
-Release  : 30
+Release  : 31
 URL      : file:///insilications/build/clearlinux/packages/libsndfile/libsndfile-v1.0.29.zip
 Source0  : file:///insilications/build/clearlinux/packages/libsndfile/libsndfile-v1.0.29.zip
 Summary  : A library for reading and writing audio files
@@ -44,6 +44,12 @@ BuildRequires : octave-dev
 BuildRequires : pkg-config
 BuildRequires : pkgconfig(32alsa)
 BuildRequires : pkgconfig(alsa)
+BuildRequires : pkgconfig(flac)
+BuildRequires : pkgconfig(flac++)
+BuildRequires : pkgconfig(ogg)
+BuildRequires : pkgconfig(vorbis)
+BuildRequires : pkgconfig(vorbisenc)
+BuildRequires : pkgconfig(vorbisfile)
 BuildRequires : python3
 BuildRequires : python3-dev
 BuildRequires : python3-staticdev
@@ -161,7 +167,7 @@ unset http_proxy
 unset https_proxy
 unset no_proxy
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1597923022
+export SOURCE_DATE_EPOCH=1597923293
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -232,7 +238,7 @@ cd ../build32;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1597923022
+export SOURCE_DATE_EPOCH=1597923293
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
