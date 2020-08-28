@@ -6,10 +6,10 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 29
+Release  : 30
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
-Source1 : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
+Source1  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
 Summary  : A library for reading and writing audio files
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -136,6 +136,7 @@ man components for the libsndfile package.
 
 %prep
 %setup -q -n libsndfile-1.0.28
+cd %{_builddir}/libsndfile-1.0.28
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -149,18 +150,24 @@ man components for the libsndfile package.
 pushd ..
 cp -a libsndfile-1.0.28 build32
 popd
+pushd ..
+cp -a libsndfile-1.0.28 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568871035
+export SOURCE_DATE_EPOCH=1598627850
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -173,20 +180,32 @@ export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %configure --disable-static  --disable-octave  --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
 make  %{?_smp_mflags}
 popd
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export FFLAGS="$FFLAGS -m64 -march=haswell"
+export FCFLAGS="$FCFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check || :
 cd ../build32;
-make VERBOSE=1 V=1 %{?_smp_mflags} check || :
+make %{?_smp_mflags} check || : || :
+cd ../buildavx2;
+make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1568871035
+export SOURCE_DATE_EPOCH=1598627850
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libsndfile
-cp COPYING %{buildroot}/usr/share/package-licenses/libsndfile/COPYING
+cp %{_builddir}/libsndfile-1.0.28/COPYING %{buildroot}/usr/share/package-licenses/libsndfile/21c7a7d66a9430401a40a6f57bf212a6570b1819
 pushd ../build32/
 %make_install32
 if [ -d  %{buildroot}/usr/lib32/pkgconfig ]
@@ -196,13 +215,30 @@ for i in *.pc ; do ln -s $i 32$i ; done
 popd
 fi
 popd
+pushd ../buildavx2/
+%make_install_avx2
+popd
 %make_install
+## install_append content
+#rm -f %{buildroot}/usr/include/sndfile.hh
+## install_append end
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/usr/bin/haswell/sndfile-cmp
+/usr/bin/haswell/sndfile-concat
+/usr/bin/haswell/sndfile-convert
+/usr/bin/haswell/sndfile-deinterleave
+/usr/bin/haswell/sndfile-info
+/usr/bin/haswell/sndfile-interleave
+/usr/bin/haswell/sndfile-metadata-get
+/usr/bin/haswell/sndfile-metadata-set
+/usr/bin/haswell/sndfile-play
+/usr/bin/haswell/sndfile-regtest
+/usr/bin/haswell/sndfile-salvage
 /usr/bin/sndfile-cmp
 /usr/bin/sndfile-concat
 /usr/bin/sndfile-convert
@@ -218,6 +254,7 @@ popd
 %files dev
 %defattr(-,root,root,-)
 /usr/include/sndfile.h
+/usr/lib64/haswell/libsndfile.so
 /usr/lib64/libsndfile.so
 /usr/lib64/pkgconfig/sndfile.pc
 
@@ -237,6 +274,8 @@ popd
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libsndfile.so.1
+/usr/lib64/haswell/libsndfile.so.1.0.28
 /usr/lib64/libsndfile.so.1
 /usr/lib64/libsndfile.so.1.0.28
 
@@ -247,7 +286,7 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libsndfile/COPYING
+/usr/share/package-licenses/libsndfile/21c7a7d66a9430401a40a6f57bf212a6570b1819
 
 %files man
 %defattr(0644,root,root,0755)
