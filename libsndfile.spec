@@ -6,7 +6,7 @@
 #
 Name     : libsndfile
 Version  : 1.0.28
-Release  : 31
+Release  : 32
 URL      : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source0  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz
 Source1  : http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz.asc
@@ -92,14 +92,6 @@ Requires: libsndfile-man = %{version}-%{release}
 doc components for the libsndfile package.
 
 
-%package extras
-Summary: extras components for the libsndfile package.
-Group: Default
-
-%description extras
-extras components for the libsndfile package.
-
-
 %package lib
 Summary: lib components for the libsndfile package.
 Group: Libraries
@@ -159,7 +151,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1598628204
+export SOURCE_DATE_EPOCH=1598628747
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -202,7 +194,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1598628204
+export SOURCE_DATE_EPOCH=1598628747
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libsndfile
 cp %{_builddir}/libsndfile-1.0.28/COPYING %{buildroot}/usr/share/package-licenses/libsndfile/21c7a7d66a9430401a40a6f57bf212a6570b1819
@@ -254,6 +246,7 @@ cp src/sndfile.hh %{buildroot}/usr/include/sndfile.hh
 %files dev
 %defattr(-,root,root,-)
 /usr/include/sndfile.h
+/usr/include/sndfile.hh
 /usr/lib64/haswell/libsndfile.so
 /usr/lib64/libsndfile.so
 /usr/lib64/pkgconfig/sndfile.pc
@@ -267,10 +260,6 @@ cp src/sndfile.hh %{buildroot}/usr/include/sndfile.hh
 %files doc
 %defattr(0644,root,root,0755)
 %doc /usr/share/doc/libsndfile/*
-
-%files extras
-%defattr(-,root,root,-)
-/usr/include/sndfile.hh
 
 %files lib
 %defattr(-,root,root,-)
