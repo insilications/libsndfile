@@ -2,15 +2,17 @@ Configure miss: whether configure should try to set CFLAGS/CXXFLAGS/CPPFLAGS/LDF
 Configure miss: windres
 Configure miss: wine
 Configure miss: xcode-select
+Configure miss: opus >= 1.1 
 Configure miss: processor clipping capabilities
 Configure miss: whether configure should try to set CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS
 Configure miss: windres
 Configure miss: wine
 Configure miss: xcode-select
+Configure miss: opus >= 1.1 
 Configure miss: processor clipping capabilities
 Configure miss: whether configure should try to set CFLAGS/CXXFLAGS/CPPFLAGS/LDFLAGS
 Configure miss: i686-generic-linux-gnu-windres
 Configure miss: windres
 Configure miss: wine
 Configure miss: xcode-select
-Configure miss: opus >= 1.1 ... link failed 
+Configure miss: opus >= 1.1 
