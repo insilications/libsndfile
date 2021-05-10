@@ -5,7 +5,7 @@
 %define keepstatic 1
 Name     : libsndfile
 Version  : 1.0.31
-Release  : 35
+Release  : 501
 URL      : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-1.0.31.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-1.0.31.tar.gz
 Summary  : A library for reading and writing audio files
@@ -175,7 +175,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620559374
+export SOURCE_DATE_EPOCH=1620612957
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -258,7 +258,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1620559374
+export SOURCE_DATE_EPOCH=1620612957
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
