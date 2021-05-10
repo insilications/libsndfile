@@ -26,6 +26,8 @@ libvorbis-dev32
 libvorbis-staticdev
 libvorbis-staticdev32
 octave-dev
+opus
+opus-lib
 opus-dev
 opus-staticdev
 pkg-config

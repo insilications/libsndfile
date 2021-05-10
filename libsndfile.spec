@@ -49,7 +49,9 @@ BuildRequires : libvorbis-dev32
 BuildRequires : libvorbis-staticdev
 BuildRequires : libvorbis-staticdev32
 BuildRequires : octave-dev
+BuildRequires : opus
 BuildRequires : opus-dev
+BuildRequires : opus-lib
 BuildRequires : opus-staticdev
 BuildRequires : pkg-config
 BuildRequires : pkg-config-dev
@@ -175,7 +177,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620612957
+export SOURCE_DATE_EPOCH=1620614915
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -258,7 +260,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1620612957
+export SOURCE_DATE_EPOCH=1620614915
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
