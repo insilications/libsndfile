@@ -5,9 +5,9 @@
 %define keepstatic 1
 Name     : libsndfile
 Version  : 1.0.31
-Release  : 501
-URL      : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-1.0.31.tar.gz
-Source0  : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-1.0.31.tar.gz
+Release  : 502
+URL      : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-v1.0.31.tar.gz
+Source0  : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-v1.0.31.tar.gz
 Summary  : A library for reading and writing audio files
 Group    : Development/Tools
 License  : zlib-acknowledgement
@@ -177,7 +177,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620614915
+export SOURCE_DATE_EPOCH=1620899165
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -224,6 +224,8 @@ export CCACHE_BASEDIR=/builddir/build/BUILD
 #export CCACHE_DEBUG=true
 #export CCACHE_NODIRECT=true
 ## altflags_pgo end
+sd -r '\s--dirty\s' ' ' .
+sd -r 'git describe' 'git describe --abbrev=0' .
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
@@ -260,7 +262,7 @@ make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1620614915
+export SOURCE_DATE_EPOCH=1620899165
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
