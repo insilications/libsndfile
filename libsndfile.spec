@@ -11,6 +11,9 @@ Source0  : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-v1.0.31.t
 Summary  : A library for reading and writing audio files
 Group    : Development/Tools
 License  : zlib-acknowledgement
+Requires: libsndfile-bin = %{version}-%{release}
+Requires: libsndfile-lib = %{version}-%{release}
+Requires: libsndfile-man = %{version}-%{release}
 BuildRequires : alsa-lib-dev
 BuildRequires : alsa-lib-dev32
 BuildRequires : autogen
@@ -71,6 +74,96 @@ This is libsndfile, 1.0.29
 libsndfile is a library of C routines for reading and writing
 files containing sampled audio data.
 
+%package bin
+Summary: bin components for the libsndfile package.
+Group: Binaries
+
+%description bin
+bin components for the libsndfile package.
+
+
+%package dev
+Summary: dev components for the libsndfile package.
+Group: Development
+Requires: libsndfile-lib = %{version}-%{release}
+Requires: libsndfile-bin = %{version}-%{release}
+Provides: libsndfile-devel = %{version}-%{release}
+Requires: libsndfile = %{version}-%{release}
+
+%description dev
+dev components for the libsndfile package.
+
+
+%package dev32
+Summary: dev32 components for the libsndfile package.
+Group: Default
+Requires: libsndfile-lib32 = %{version}-%{release}
+Requires: libsndfile-bin = %{version}-%{release}
+Requires: libsndfile-dev = %{version}-%{release}
+
+%description dev32
+dev32 components for the libsndfile package.
+
+
+%package doc
+Summary: doc components for the libsndfile package.
+Group: Documentation
+Requires: libsndfile-man = %{version}-%{release}
+
+%description doc
+doc components for the libsndfile package.
+
+
+%package extras
+Summary: extras components for the libsndfile package.
+Group: Default
+
+%description extras
+extras components for the libsndfile package.
+
+
+%package lib
+Summary: lib components for the libsndfile package.
+Group: Libraries
+
+%description lib
+lib components for the libsndfile package.
+
+
+%package lib32
+Summary: lib32 components for the libsndfile package.
+Group: Default
+
+%description lib32
+lib32 components for the libsndfile package.
+
+
+%package man
+Summary: man components for the libsndfile package.
+Group: Default
+
+%description man
+man components for the libsndfile package.
+
+
+%package staticdev
+Summary: staticdev components for the libsndfile package.
+Group: Default
+Requires: libsndfile-dev = %{version}-%{release}
+
+%description staticdev
+staticdev components for the libsndfile package.
+
+
+%package staticdev32
+Summary: staticdev32 components for the libsndfile package.
+Group: Default
+Requires: libsndfile-dev32 = %{version}-%{release}
+
+%description staticdev32
+staticdev32 components for the libsndfile package.
+
+
 %prep
 %setup -q -n libsndfile
 cd %{_builddir}/libsndfile
@@ -84,7 +177,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1622252980
+export SOURCE_DATE_EPOCH=1622254603
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -141,7 +234,15 @@ export FFLAGS="${FFLAGS_GENERATE}"
 export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
 %autogen  --enable-shared --enable-static
-make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive" V=1 VERBOSE=1
+## make_prepend content
+#LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive"
+sd "\-lopus" "/usr/lib64/libopus.a" $(fd -uu --glob Makefile)
+sd "\-lFLAC" "/usr/lib64/libFLAC.a" $(fd -uu --glob Makefile)
+sd "\-lvorbis" "/usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a" $(fd -uu --glob Makefile)
+sd "\-lvorbisenc" "/usr/lib64/libvorbisenc.a" $(fd -uu --glob Makefile)
+sd "\-logg" "/usr/lib64/libogg.a" $(fd -uu --glob Makefile)
+## make_prepend end
+make  %{?_smp_mflags}   V=1 VERBOSE=1 V=1 VERBOSE=1
 
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 make clean
@@ -155,7 +256,15 @@ export FFLAGS="${FFLAGS_USE}"
 export FCFLAGS="${FCFLAGS_USE}"
 export LDFLAGS="${LDFLAGS_USE}"
 %autogen  --enable-shared --enable-static
-make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive" V=1 VERBOSE=1
+## make_prepend content
+#LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive"
+sd "\-lopus" "/usr/lib64/libopus.a" $(fd -uu --glob Makefile)
+sd "\-lFLAC" "/usr/lib64/libFLAC.a" $(fd -uu --glob Makefile)
+sd "\-lvorbis" "/usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a" $(fd -uu --glob Makefile)
+sd "\-lvorbisenc" "/usr/lib64/libvorbisenc.a" $(fd -uu --glob Makefile)
+sd "\-logg" "/usr/lib64/libogg.a" $(fd -uu --glob Makefile)
+## make_prepend end
+make  %{?_smp_mflags}   V=1 VERBOSE=1 V=1 VERBOSE=1
 fi
 
 pushd ../build32/
@@ -176,7 +285,7 @@ make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1622252980
+export SOURCE_DATE_EPOCH=1622254603
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -196,3 +305,70 @@ cp --archive %{buildroot}/usr/lib64/lib*.so* %{buildroot}/usr/lib64/haswell/ || 
 
 %files
 %defattr(-,root,root,-)
+
+%files bin
+%defattr(-,root,root,-)
+/usr/bin/sndfile-cmp
+/usr/bin/sndfile-concat
+/usr/bin/sndfile-convert
+/usr/bin/sndfile-deinterleave
+/usr/bin/sndfile-info
+/usr/bin/sndfile-interleave
+/usr/bin/sndfile-metadata-get
+/usr/bin/sndfile-metadata-set
+/usr/bin/sndfile-play
+/usr/bin/sndfile-salvage
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/sndfile.h
+/usr/lib64/haswell/libsndfile.so
+/usr/lib64/libsndfile.so
+/usr/lib64/pkgconfig/sndfile.pc
+
+%files dev32
+%defattr(-,root,root,-)
+/usr/lib32/libsndfile.so
+/usr/lib32/pkgconfig/32sndfile.pc
+/usr/lib32/pkgconfig/sndfile.pc
+
+%files doc
+%defattr(0644,root,root,0755)
+%doc /usr/share/doc/libsndfile/*
+
+%files extras
+%defattr(-,root,root,-)
+/usr/include/sndfile.hh
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/haswell/libsndfile.so.1
+/usr/lib64/haswell/libsndfile.so.1.0.31
+/usr/lib64/libsndfile.so.1
+/usr/lib64/libsndfile.so.1.0.31
+
+%files lib32
+%defattr(-,root,root,-)
+/usr/lib32/libsndfile.so.1
+/usr/lib32/libsndfile.so.1.0.31
+
+%files man
+%defattr(0644,root,root,0755)
+/usr/share/man/man1/sndfile-cmp.1
+/usr/share/man/man1/sndfile-concat.1
+/usr/share/man/man1/sndfile-convert.1
+/usr/share/man/man1/sndfile-deinterleave.1
+/usr/share/man/man1/sndfile-info.1
+/usr/share/man/man1/sndfile-interleave.1
+/usr/share/man/man1/sndfile-metadata-get.1
+/usr/share/man/man1/sndfile-metadata-set.1
+/usr/share/man/man1/sndfile-play.1
+/usr/share/man/man1/sndfile-salvage.1
+
+%files staticdev
+%defattr(-,root,root,-)
+/usr/lib64/libsndfile.a
+
+%files staticdev32
+%defattr(-,root,root,-)
+/usr/lib32/libsndfile.a
