@@ -5,15 +5,12 @@
 %define keepstatic 1
 Name     : libsndfile
 Version  : 1.0.31
-Release  : 502
+Release  : 504
 URL      : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-v1.0.31.tar.gz
 Source0  : file:///aot/build/clearlinux/packages/libsndfile/libsndfile-v1.0.31.tar.gz
 Summary  : A library for reading and writing audio files
 Group    : Development/Tools
 License  : zlib-acknowledgement
-Requires: libsndfile-bin = %{version}-%{release}
-Requires: libsndfile-lib = %{version}-%{release}
-Requires: libsndfile-man = %{version}-%{release}
 BuildRequires : alsa-lib-dev
 BuildRequires : alsa-lib-dev32
 BuildRequires : autogen
@@ -74,96 +71,6 @@ This is libsndfile, 1.0.29
 libsndfile is a library of C routines for reading and writing
 files containing sampled audio data.
 
-%package bin
-Summary: bin components for the libsndfile package.
-Group: Binaries
-
-%description bin
-bin components for the libsndfile package.
-
-
-%package dev
-Summary: dev components for the libsndfile package.
-Group: Development
-Requires: libsndfile-lib = %{version}-%{release}
-Requires: libsndfile-bin = %{version}-%{release}
-Provides: libsndfile-devel = %{version}-%{release}
-Requires: libsndfile = %{version}-%{release}
-
-%description dev
-dev components for the libsndfile package.
-
-
-%package dev32
-Summary: dev32 components for the libsndfile package.
-Group: Default
-Requires: libsndfile-lib32 = %{version}-%{release}
-Requires: libsndfile-bin = %{version}-%{release}
-Requires: libsndfile-dev = %{version}-%{release}
-
-%description dev32
-dev32 components for the libsndfile package.
-
-
-%package doc
-Summary: doc components for the libsndfile package.
-Group: Documentation
-Requires: libsndfile-man = %{version}-%{release}
-
-%description doc
-doc components for the libsndfile package.
-
-
-%package extras
-Summary: extras components for the libsndfile package.
-Group: Default
-
-%description extras
-extras components for the libsndfile package.
-
-
-%package lib
-Summary: lib components for the libsndfile package.
-Group: Libraries
-
-%description lib
-lib components for the libsndfile package.
-
-
-%package lib32
-Summary: lib32 components for the libsndfile package.
-Group: Default
-
-%description lib32
-lib32 components for the libsndfile package.
-
-
-%package man
-Summary: man components for the libsndfile package.
-Group: Default
-
-%description man
-man components for the libsndfile package.
-
-
-%package staticdev
-Summary: staticdev components for the libsndfile package.
-Group: Default
-Requires: libsndfile-dev = %{version}-%{release}
-
-%description staticdev
-staticdev components for the libsndfile package.
-
-
-%package staticdev32
-Summary: staticdev32 components for the libsndfile package.
-Group: Default
-Requires: libsndfile-dev32 = %{version}-%{release}
-
-%description staticdev32
-staticdev32 components for the libsndfile package.
-
-
 %prep
 %setup -q -n libsndfile
 cd %{_builddir}/libsndfile
@@ -177,7 +84,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1620899165
+export SOURCE_DATE_EPOCH=1622252980
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -192,13 +99,13 @@ export CXXFLAGS_GENERATE="-g -O3 --param=lto-max-streaming-parallelism=16 -march
 export LDFLAGS_GENERATE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -falign-functions=32 -flimit-function-alignment -fno-semantic-interposition -fno-stack-protector -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -mtls-dialect=gnu2 -fno-math-errno -fno-trapping-math -pipe -ffat-lto-objects -flto=16 -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc -lpthread -Wl,--build-id=sha1 -fdevirtualize-at-ltrans -Wl,-z,now -Wl,-z,relro -Wl,-sort-common -fasynchronous-unwind-tables $PGO_GEN"
 ## pgo use
 ## -ffat-lto-objects -fno-PIE -fno-PIE -m64 -no-pie -fPIC -Wl,-z,max-page-size=0x1000 -fvisibility=hidden -flto-partition=none
-## gcc: -feliminate-unused-debug-types -fipa-pta -flto=16 -Wno-error -Wp,-D_REENTRANT -fno-common
+## gcc: -feliminate-unused-debug-types -fipa-pta -flto=16 -Wno-error -Wp,-D_REENTRANT -fno-common -funroll-loops
 export PGO_USE="-fprofile-use=/var/tmp/pgo -fprofile-dir=/var/tmp/pgo -fprofile-abs-path -fprofile-correction -fprofile-partial-training"
-export CFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
-export FCFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
-export FFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
-export CXXFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
-export LDFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc -lpthread $PGO_USE"
+export CFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
+export FCFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
+export FFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
+export CXXFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -fvisibility-inlines-hidden -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc $PGO_USE"
+export LDFLAGS_USE="-g -O3 --param=lto-max-streaming-parallelism=16 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -floop-block -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=16 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC -Wl,-z,max-page-size=0x1000 -fomit-frame-pointer -pthread -static-libstdc++ -static-libgcc -lpthread $PGO_USE"
 #
 export AR=/usr/bin/gcc-ar
 export RANLIB=/usr/bin/gcc-ranlib
@@ -226,23 +133,30 @@ export CCACHE_BASEDIR=/builddir/build/BUILD
 ## altflags_pgo end
 sd -r '\s--dirty\s' ' ' .
 sd -r 'git describe' 'git describe --abbrev=0' .
+if [ ! -f statuspgo ]; then
+echo PGO Phase 1
 export CFLAGS="${CFLAGS_GENERATE}"
 export CXXFLAGS="${CXXFLAGS_GENERATE}"
 export FFLAGS="${FFLAGS_GENERATE}"
 export FCFLAGS="${FCFLAGS_GENERATE}"
 export LDFLAGS="${LDFLAGS_GENERATE}"
 %autogen  --enable-shared --enable-static
-make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive -Wl,--no-whole-archive"
+make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive" V=1 VERBOSE=1
 
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 make clean
+echo USED > statuspgo
+fi
+if [ -f statuspgo ]; then
+echo PGO Phase 2
 export CFLAGS="${CFLAGS_USE}"
 export CXXFLAGS="${CXXFLAGS_USE}"
 export FFLAGS="${FFLAGS_USE}"
 export FCFLAGS="${FCFLAGS_USE}"
 export LDFLAGS="${LDFLAGS_USE}"
 %autogen  --enable-shared --enable-static
-make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive -Wl,--no-whole-archive"
+make  %{?_smp_mflags}   LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive" V=1 VERBOSE=1
+fi
 
 pushd ../build32/
 export CFLAGS="-O2 -ffat-lto-objects -fuse-linker-plugin -pipe -fPIC -m32 -mstackrealign -march=native -mtune=native"
@@ -258,11 +172,11 @@ export CFLAGS="${CFLAGS}${CFLAGS:+ }-m32 -mstackrealign"
 export CXXFLAGS="${CXXFLAGS}${CXXFLAGS:+ }-m32 -mstackrealign"
 export LDFLAGS="${LDFLAGS}${LDFLAGS:+ }-m32 -mstackrealign"
 %autogen  --disable-octave --libdir=/usr/lib32 --build=i686-generic-linux-gnu --host=i686-generic-linux-gnu --target=i686-clr-linux-gnu
-make  %{?_smp_mflags}
+make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1620899165
+export SOURCE_DATE_EPOCH=1622252980
 rm -rf %{buildroot}
 pushd ../build32/
 %make_install32
@@ -276,71 +190,9 @@ popd
 %make_install
 ## install_append content
 #rm -f %{buildroot}/usr/include/sndfile.hh
+install -dm 0755 %{buildroot}/usr/lib64/haswell/ || :
+cp --archive %{buildroot}/usr/lib64/lib*.so* %{buildroot}/usr/lib64/haswell/ || :
 ## install_append end
 
 %files
 %defattr(-,root,root,-)
-
-%files bin
-%defattr(-,root,root,-)
-/usr/bin/sndfile-cmp
-/usr/bin/sndfile-concat
-/usr/bin/sndfile-convert
-/usr/bin/sndfile-deinterleave
-/usr/bin/sndfile-info
-/usr/bin/sndfile-interleave
-/usr/bin/sndfile-metadata-get
-/usr/bin/sndfile-metadata-set
-/usr/bin/sndfile-play
-/usr/bin/sndfile-salvage
-
-%files dev
-%defattr(-,root,root,-)
-/usr/include/sndfile.h
-/usr/lib64/libsndfile.so
-/usr/lib64/pkgconfig/sndfile.pc
-
-%files dev32
-%defattr(-,root,root,-)
-/usr/lib32/libsndfile.so
-/usr/lib32/pkgconfig/32sndfile.pc
-/usr/lib32/pkgconfig/sndfile.pc
-
-%files doc
-%defattr(0644,root,root,0755)
-%doc /usr/share/doc/libsndfile/*
-
-%files extras
-%defattr(-,root,root,-)
-/usr/include/sndfile.hh
-
-%files lib
-%defattr(-,root,root,-)
-/usr/lib64/libsndfile.so.1
-/usr/lib64/libsndfile.so.1.0.31
-
-%files lib32
-%defattr(-,root,root,-)
-/usr/lib32/libsndfile.so.1
-/usr/lib32/libsndfile.so.1.0.31
-
-%files man
-%defattr(0644,root,root,0755)
-/usr/share/man/man1/sndfile-cmp.1
-/usr/share/man/man1/sndfile-concat.1
-/usr/share/man/man1/sndfile-convert.1
-/usr/share/man/man1/sndfile-deinterleave.1
-/usr/share/man/man1/sndfile-info.1
-/usr/share/man/man1/sndfile-interleave.1
-/usr/share/man/man1/sndfile-metadata-get.1
-/usr/share/man/man1/sndfile-metadata-set.1
-/usr/share/man/man1/sndfile-play.1
-/usr/share/man/man1/sndfile-salvage.1
-
-%files staticdev
-%defattr(-,root,root,-)
-/usr/lib64/libsndfile.a
-
-%files staticdev32
-%defattr(-,root,root,-)
-/usr/lib32/libsndfile.a

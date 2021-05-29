@@ -1,0 +1,6 @@
+#LDFLAGS="${LDFLAGS} -Wl,--whole-archive /usr/lib64/libopus.a /usr/lib64/libFLAC.a /usr/lib64/libvorbis.a /usr/lib64/libvorbisenc.a /usr/lib64/libogg.a -Wl,--no-whole-archive"
+sd "\-lopus" "/usr/lib64/libopus.a" $(fd -uu --glob Makefile)
+sd "-lFLAC" "/usr/lib64/libFLAC.a" $(fd -uu --glob Makefile)
+sd "-lvorbis" "/usr/lib64/libvorbis.a" $(fd -uu --glob Makefile)
+sd "-lvorbisenc" "/usr/lib64/libvorbisenc.a" $(fd -uu --glob Makefile)
+sd "-logg" "/usr/lib64/libogg.a" $(fd -uu --glob Makefile)
